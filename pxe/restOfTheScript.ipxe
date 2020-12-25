@@ -1,0 +1,98 @@
+#!ipxe
+
+set menu-timeout 5000
+set submenu-timeout ${menu-timeout}
+isset ${menu-default} || set menu-default whatOurServerRecommends
+
+:menu
+menu Select the OS you want to boot
+item whatOurServerRecommends What the server recommends we boot
+item secondBootOptionInTheBiosBootList secondBootOptionInTheBiosBootList
+item ubuntu2004 Ubuntu 20.04
+item oracleLinux8 Oracle Linux 8
+item debian2019 Debian 2019
+item driveZero driveZero
+item driveOne driveOne
+item driveTwo driveTwo
+item driveThree driveThree
+item ipxe-shell iPXE Shell
+item reboot Reboot
+
+choose --timeout ${menu-timeout} --default ${menu-default} selected || goto cancel
+set menu-timeout 0
+goto ${selected}
+
+:whatOurServerRecommends
+# the server template-replaces the url values based on the computer's MAC
+set base-url https://github.com/lettox/lettox.github.io/releases/download/debian
+set kernelFileName vmlinuz
+set initRamdiskFileName initrd
+kernel ${base-url}/${kernelFileName} ip=::::::dhcp initrd=${initRamdiskFileName}
+initrd ${base-url}/${initRamdiskFileName}
+boot || goto failed
+
+:secondBootOptionInTheBiosBootList
+echo secondBootOptionInTheBiosBootList
+exit # "The normal way to do that is just to setup your local drive as the next item in the BIOS boot order and use the exit command in the iPXE shell or script. If you have your computer set to network boot as first boot optnio, HDD must be set as second option to make "exit" work as it should."
+# If you for some reason can't get that to work, this has been known to work as an alternative.
+	# sanboot --no-describe --drive 0x80 # Boot the first local HDD
+		# "or it might be 0x81 or 0x82. I was able to boot a linux USB drive on 0x82"
+
+:driveZero
+sanboot --no-describe --drive 0x80
+
+:driveOne
+sanboot --no-describe --drive 0x81
+
+:driveTwo
+sanboot --no-describe --drive 0x82
+
+:driveThree
+sanboot --no-describe --drive 0x82
+
+:ubuntu2004
+echo Booting and installing Ubuntu 20.04
+set base-url https://lettox.com/linuxImages/ubuntu20.04
+set kernelFileName vmlinuz
+set initRamdiskFileName initrd
+kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} init=/usr/lib/systemd/systemd-bootchart
+initrd ${base-url}/${initRamdiskFileName}
+boot || goto failed
+
+:oracleLinux8
+echo Booting and installing Oracle Linux 8
+set base-url https://lettox.com/linuxImages/oracleLinux8
+set kernelFileName vmlinuz
+set initRamdiskFileName initrd
+kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} init=/usr/lib/systemd/systemd-bootchart
+initrd ${base-url}/${initRamdiskFileName}
+boot || goto failed
+
+:debian2019
+echo Booting and installing Debian 2019
+set base-url https://github.com/lettox/lettox.github.io/releases/download/debian
+set kernelFileName vmlinuz
+set initRamdiskFileName initrd
+kernel ${base-url}/${kernelFileName} ip=::::::dhcp initrd=${initRamdiskFileName}
+initrd ${base-url}/${initRamdiskFileName}
+boot || goto failed
+
+:cancel
+echo Menu canceled, going to iPXE shell
+
+:ipxe-shell
+echo Type 'exit' to return to the menu
+shell
+set menu-timeout 0
+set submenu-timeout 0
+goto menu
+
+echo Booting
+:failed
+echo Booting failed, going to iPXE shell
+goto ipxe-shell
+
+:reboot
+echo Rebooting...
+sleep 1
+reboot
