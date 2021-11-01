@@ -6,7 +6,7 @@ isset ${menu-default} || set menu-default whatOurServerRecommends
 
 :menu
 menu Select the OS you want to boot
-item whatOurServerRecommends What the server recommends this computer boots 3
+item whatOurServerRecommends What the server recommends this computer boots 4
 item secondBootOptionInTheBiosBootList secondBootOptionInTheBiosBootList
 item ubuntu2004 Ubuntu 20.04
 item oracleLinux8 Oracle Linux 8
@@ -27,7 +27,7 @@ goto ${selected}
 set base-url https://github.com/lettox/lettox.github.io/releases/download/debian
 set kernelFileName vmlinuz
 set initRamdiskFileName initrd
-kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/vda init=/init
+kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/vda1
 initrd ${base-url}/${initRamdiskFileName}
 boot || goto failed
 
