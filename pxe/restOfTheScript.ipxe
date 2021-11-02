@@ -6,7 +6,7 @@ isset ${menu-default} || set menu-default whatOurServerRecommends
 
 :menu
 menu Select the OS you want to boot
-item whatOurServerRecommends What the server recommends this computer boots 9
+item whatOurServerRecommends What the server recommends this computer boots 10
 item secondBootOptionInTheBiosBootList secondBootOptionInTheBiosBootList
 item ubuntu2004 Ubuntu 20.04
 item oracleLinux8 Oracle Linux 8
@@ -30,7 +30,8 @@ set initRamdiskFileName initrd
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/ram0 rdinit=/bin/sh
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/sda1
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=dev/sda1
-kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/ram0 ramdisk_size=3100000 rw
+kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/ram0 ramdisk_size=800000 rootfstype=ramfs rw
+# ~ 800 MB
 initrd ${base-url}/${initRamdiskFileName}
 boot || goto failed
 
