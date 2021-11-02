@@ -6,7 +6,7 @@ isset ${menu-default} || set menu-default whatOurServerRecommends
 
 :menu
 menu Select the OS you want to boot
-item whatOurServerRecommends What the server recommends this computer boots 10
+item whatOurServerRecommends What the server recommends this computer boots 11
 item secondBootOptionInTheBiosBootList secondBootOptionInTheBiosBootList
 item ubuntu2004 Ubuntu 20.04
 item oracleLinux8 Oracle Linux 8
