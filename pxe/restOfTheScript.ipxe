@@ -30,9 +30,9 @@ set initRamdiskFileName initrd
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/ram0 rdinit=/bin/sh
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/sda1
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=dev/sda1
+initrd ${base-url}/${initRamdiskFileName}
 kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/ram0 ramdisk_size=800000 rootfstype=ramfs rw
 # ~ 800 MB
-initrd ${base-url}/${initRamdiskFileName}
 boot || goto failed
 
 :secondBootOptionInTheBiosBootList
