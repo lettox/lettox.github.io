@@ -6,7 +6,7 @@ isset ${menu-default} || set menu-default whatOurServerRecommends
 
 :menu
 menu Select the OS you want to boot
-item whatOurServerRecommends What the server recommends this computer boots 14
+item whatOurServerRecommends What the server recommends this computer boots 15
 item secondBootOptionInTheBiosBootList secondBootOptionInTheBiosBootList
 item ubuntu2004 Ubuntu 20.04
 item oracleLinux8 Oracle Linux 8
@@ -29,7 +29,8 @@ set kernelFileName vmlinuz
 set initRamdiskFileName initrd
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/ram0 rdinit=/bin/sh
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=dev/sda1
-imgfree # Without this, initrd gets corrupted
+# Without imgfreeb, initrd gets corrupted
+imgfree
 initrd ${base-url}/${initRamdiskFileName}
 kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/sda1
 # kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/ram0 ramdisk_size=800000 rootfstype=ramfs rw
