@@ -29,9 +29,9 @@ set kernelFileName vmlinuz
 set initRamdiskFileName initrd
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/ram0 rdinit=/bin/sh
 # kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=dev/sda1
-imgfree
+imgfree # Without this, initrd gets corrupted
 initrd ${base-url}/${initRamdiskFileName}
-kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/sda1
+kernel ${base-url}/${kernelFileName} initrd=${initRamdiskFileName} root=/dev/sda1
 # kernel ${base-url}/${kernelFileName} initrd=initrd root=/dev/ram0 ramdisk_size=800000 rootfstype=ramfs rw
 # ~ 800 MB
 boot || goto failed
